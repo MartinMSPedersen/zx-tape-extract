@@ -120,6 +120,7 @@ int main(int argc, char **argv) {
 			tape_data_len = libspectrum_tape_block_data_length(tape_block);
 			printf("length=%lu\n",tape_data_len);
 			tape_data = (libspectrum_byte *)malloc(tape_data_len);
+			tape_data = libspectrum_tape_block_data(tape_block);
 			if (tape_data_len==19) {
 				for (int i=0; i<tape_data_len; i++) {
 					printf("%02x",tape_data[i]);
