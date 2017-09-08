@@ -59,7 +59,9 @@ char *blocktype2char(libspectrum_tape_type type) {
 	return "This should never happen";
 }
 
-
+unsigned char *basic2txt(libspectrum_byte *data) {
+	return data;
+}
 
 
 int main(int argc, char **argv) {
@@ -122,11 +124,29 @@ int main(int argc, char **argv) {
 			tape_data = (libspectrum_byte *)malloc(tape_data_len);
 			tape_data = libspectrum_tape_block_data(tape_block);
 			if (tape_data_len==19) {
-				for (int i=0; i<tape_data_len; i++) {
-					printf("%02x",tape_data[i]);
+				int parameter1=tape_data[14]+tape_data[15]*256;;
+				int parameter2=tape_data[16]+tape_data[17]*256;
+				switch (tape_data[1]) {
+					case 0: 
+						printf("PROGRAM\n"); 
+						if (parameter1<32768) {
+							printf("Autostart %d\n", parameter1);
+						} else {
+							printf("No autostart\n");
+						}
+						printf("Variable area: %d\n", parameter2);
+						break;
+					case 1: printf("NUMBER ARRAY\n"); break;
+					case 2: printf("CHARACTER ARRAY\n"); break;
+					case 3: 
+						printf("CODE\n"); 
+						printf("Start: %d\n", parameter1);
+						break;
+					default: printf("???\n"); break;
 				}
-				printf("\n");
-				for (int i=0; i<tape_data_len; i++) {
+				
+				printf("Filename: ");
+				for (int i=2; i<=11; i++) {
 					printf("%c",tape_data[i]);
 				}
 				printf("\n");
@@ -140,6 +160,4 @@ int main(int argc, char **argv) {
 
 
 	return EXIT_SUCCESS;
-
-
 }

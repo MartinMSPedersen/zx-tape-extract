@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -pedantic -ggdb -Werror 
+CFLAGS = -Wall -pedantic -ggdb -Werror  -Wextra
 LDFLAGS = -lspectrum
  
 all:	zx-tape-extract tap2bas
