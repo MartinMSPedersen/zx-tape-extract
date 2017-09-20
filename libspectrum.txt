@@ -1,0 +1,1 @@
+/home/tusk/src/libspectrum-1.3.4/doc/libspectrum.txt
